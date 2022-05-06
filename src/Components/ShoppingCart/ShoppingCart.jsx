@@ -3,7 +3,16 @@ import { Link } from "react-router-dom";
 ShoppingCart.propTypes = {};
 
 function ShoppingCart(props) {
-  const valueCart = useRef([]);
+  const valueCart = useRef([
+    [
+      { bookName: "Sách 1", bookPrice: "12", bookDisc: "Khong" },
+      { quantity: 9, totalPrice: 108 },
+      [
+        "https://res.cloudinary.com/thekhiem/image/upload/v1651829611/preqmjkr0ina1jz0fjtt.webp",
+        "https://res.cloudinary.com/thekhiem/image/upload/v1651829613/drykwknndzcqssa3znxo.webp",
+      ],
+    ],
+  ]);
 
   const localProductsData = localStorage.getItem("Products");
   const localCartData = localStorage.getItem("cart");
@@ -17,11 +26,13 @@ function ShoppingCart(props) {
     setAllTotalPriceData(dataAllTotalPriceParse);
     setCartData(dataCartParse);
     valueCart.current = dataCartParse;
-    let allTotalPrice = valueCart.current.reduce(
-      (ack, item) => ack + item[1].totalPrice,
-      0
-    );
-    localStorage.setItem("AllTotalPrice", JSON.stringify(allTotalPrice));
+    if (valueCart.current) {
+      let allTotalPrice = valueCart.current.reduce(
+        (ack, item) => ack + item[1].totalPrice,
+        0
+      );
+      localStorage.setItem("AllTotalPrice", JSON.stringify(allTotalPrice));
+    }
   }, [localProductsData, localCartData, localAllTotalPriceData]);
 
   const handleDeleteProductCart = (item) => {

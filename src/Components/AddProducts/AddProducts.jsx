@@ -4,13 +4,23 @@ import { UserApi } from "../../Api/UserApi/UserApi";
 AddProducts.propTypes = {};
 
 function AddProducts(props) {
-  const valueProducts = useRef([]);
+  const valueProducts = useRef([
+    [
+      { bookName: "Sách 1", bookPrice: "12", bookDisc: "Khong" },
+      { quantity: 1, totalPrice: "12" },
+      [
+        "https://res.cloudinary.com/thekhiem/image/upload/v1651829611/preqmjkr0ina1jz0fjtt.webp",
+        "https://res.cloudinary.com/thekhiem/image/upload/v1651829613/drykwknndzcqssa3znxo.webp",
+      ],
+    ],
+  ]);
+
+  const localProductsData = localStorage.getItem("Products");
 
   useEffect(() => {
-    const localProductsData = localStorage.getItem("Products");
     const dataParse = JSON.parse(localProductsData);
     valueProducts.current = dataParse;
-  }, []);
+  }, [localProductsData]);
   const valueImage = useRef([]);
   const handleImageChange = async (e) => {
     try {

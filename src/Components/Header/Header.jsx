@@ -7,7 +7,16 @@ import "../../CSS/vendors.css";
 Header.propTypes = {};
 
 function Header(props) {
-  const valueCart = useRef([]);
+  const valueCart = useRef([
+    [
+      { bookName: "Sách 1", bookPrice: "12", bookDisc: "Khong" },
+      { quantity: 9, totalPrice: 108 },
+      [
+        "https://res.cloudinary.com/thekhiem/image/upload/v1651829611/preqmjkr0ina1jz0fjtt.webp",
+        "https://res.cloudinary.com/thekhiem/image/upload/v1651829613/drykwknndzcqssa3znxo.webp",
+      ],
+    ],
+  ]);
 
   const localProductsData = localStorage.getItem("Products");
   const localCartData = localStorage.getItem("cart");
