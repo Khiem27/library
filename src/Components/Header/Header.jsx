@@ -21,12 +21,13 @@ function Header(props) {
     setAllTotalPriceData(dataAllTotalPriceParse);
     setCartData(dataCartParse);
     valueCart.current = dataCartParse;
-
-    let allTotalPrice = valueCart.current.reduce(
-      (ack, item) => ack + item[1].totalPrice,
-      0
-    );
-    localStorage.setItem("AllTotalPrice", JSON.stringify(allTotalPrice));
+    if (valueCart.current) {
+      let allTotalPrice = valueCart.current.reduce(
+        (ack, item) => ack + item[1].totalPrice,
+        0
+      );
+      localStorage.setItem("AllTotalPrice", JSON.stringify(allTotalPrice));
+    }
   }, [localProductsData, localCartData, localAllTotalPriceData]);
   const [valueActiveAccount, setValueActiveAccount] = useState(false);
   const activeAccount = () => {
