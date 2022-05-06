@@ -31,7 +31,7 @@ function AddProducts(props) {
       { quantity: 1, totalPrice: data.bookPrice },
       valueImage.current,
     ];
-    if (newArr) {
+    if (valueProducts.current) {
       valueProducts.current.push(newArr);
       localStorage.setItem("Products", JSON.stringify(valueProducts.current));
     }
