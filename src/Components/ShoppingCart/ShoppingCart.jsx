@@ -107,7 +107,7 @@ function ShoppingCart(props) {
                                 <td className="pro-thumbnail">
                                   <a href="/products/8-countdown-product?variant=29444795662410">
                                     <img
-                                      src="//cdn.shopify.com/s/files/1/0265/8933/1530/products/11_e272e529-4c81-454b-b9ff-99dcfba814f1_compact.jpg?v=1569231225"
+                                      src={item[2][0]}
                                       alt="8. Countdown product - red"
                                     />
                                   </a>
