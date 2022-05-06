@@ -1,13 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import "../../CSS/style.css";
 import "../../CSS/theme-custom.css";
 import "../../CSS/timber.scss.css";
 import "../../CSS/vendors.css";
+import { DeleteProductCart } from "../Products/ProductsSlide";
+
 Header.propTypes = {};
 
 function Header(props) {
   const valueCart = useRef([]);
+  const dispatch = useDispatch();
 
   const localProductsData = localStorage.getItem("Products");
   const localCartData = localStorage.getItem("cart");
@@ -40,8 +44,8 @@ function Header(props) {
   };
 
   const handleDeleteProductCart = (item) => {
-    const newArr = cartData.filter((data) => data !== item);
-    localStorage.setItem("cart", JSON.stringify(newArr));
+    const action = DeleteProductCart(item);
+    dispatch(action);
   };
   return (
     <div id="shopify-section-header" className="shopify-section">

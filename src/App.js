@@ -3,6 +3,7 @@ import "./App.css";
 import AddProductsLayout from "./Layout/AddProducts/AddProductsLayout";
 import LoginLayout from "./Layout/Authentication/Login/LoginLayout";
 import RegisterLayout from "./Layout/Authentication/Register/RegisterLayout";
+import CheckoutLayout from "./Layout/Checkout/CheckoutLayout";
 import HomeLayout from "./Layout/Home/HomeLayout";
 import ShoppingCartLayout from "./Layout/ShoppingCart/ShoppingCartLayout";
 function App() {
@@ -40,6 +41,7 @@ function App() {
         <Route path="/account/register" element={<RegisterLayout />} />
         <Route path="/cart" element={<ShoppingCartLayout />} />
         <Route path="/pages/contact-us" element={<AddProductsLayout />} />
+        <Route path="/pages/about-us" element={<CheckoutLayout />} />
       </Routes>
     </div>
   );

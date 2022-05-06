@@ -1,9 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { DeleteProductCart } from "../Products/ProductsSlide";
+
 ShoppingCart.propTypes = {};
 
 function ShoppingCart(props) {
   const valueCart = useRef();
+  const dispatch = useDispatch();
 
   const localProductsData = localStorage.getItem("Products");
   const localCartData = localStorage.getItem("cart");
@@ -27,8 +31,8 @@ function ShoppingCart(props) {
   }, [localProductsData, localCartData, localAllTotalPriceData]);
 
   const handleDeleteProductCart = (item) => {
-    const newArr = cartData.filter((data) => data !== item);
-    localStorage.setItem("cart", JSON.stringify(newArr));
+    const action = DeleteProductCart(item);
+    dispatch(action);
     let allTotalPrice = valueCart.current.reduce(
       (ack, item) => ack + item[1].totalPrice,
       0

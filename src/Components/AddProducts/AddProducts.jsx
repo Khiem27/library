@@ -1,17 +1,12 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { UserApi } from "../../Api/UserApi/UserApi";
+import { addProducts } from "../ShoppingCart/ShoppingCartSlice";
 AddProducts.propTypes = {};
 
 function AddProducts(props) {
-  const localProductsData = localStorage.getItem("Products");
-
-  useEffect(() => {
-    const dataParse = JSON.parse(localProductsData);
-    valueProducts.current = dataParse;
-  }, [localProductsData]);
-  const valueProducts = useRef([]);
-
+  const dispatch = useDispatch();
   const valueImage = useRef([]);
   const handleImageChange = async (e) => {
     try {
@@ -32,9 +27,8 @@ function AddProducts(props) {
       { quantity: 1, totalPrice: data.bookPrice },
       valueImage.current,
     ];
-    console.log(valueProducts.current);
-    valueProducts.current.push(newArr);
-    localStorage.setItem("Products", JSON.stringify(valueProducts.current));
+    const action = addProducts(newArr);
+    dispatch(action);
   };
   return (
     <main>

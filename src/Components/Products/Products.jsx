@@ -1,44 +1,23 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { AddToCart } from "./ProductsSlide";
 Products.propTypes = {};
 
 function Products(props) {
-  const valueProducts = useRef([]);
-  const valueCart = useRef([]);
+  const dispatch = useDispatch();
   const [Products, setProducts] = useState([]);
-  const [cartData, setCartData] = useState([]);
 
   const localProductsData = localStorage.getItem("Products");
-  const localCartData = localStorage.getItem("cart");
 
   useEffect(() => {
     const dataParse = JSON.parse(localProductsData);
-    const dataCartParse = JSON.parse(localCartData);
-    valueProducts.current = dataParse;
-    valueCart.current = dataCartParse;
-    setProducts(valueProducts.current);
-    setCartData(dataCartParse);
-  }, [localProductsData, localCartData]);
-  const handleAddToCart = (item) => {
-    const valueFindIndex = cartData.findIndex((data) => {
-      return data[0].bookName === item[0].bookName;
-    });
-    if (valueFindIndex < 0) {
-      const arr = valueCart.current;
-      arr.push(item);
-    } else {
-      const arr = valueCart.current;
-      arr[valueFindIndex][1].quantity = arr[valueFindIndex][1].quantity + 1;
-      arr[valueFindIndex][1].totalPrice =
-        arr[valueFindIndex][1].quantity * arr[valueFindIndex][0].bookPrice;
-    }
-    let allTotalPrice = valueCart.current.reduce(
-      (ack, item) => ack + item[1].totalPrice,
-      0
-    );
-    localStorage.setItem("AllTotalPrice", JSON.stringify(allTotalPrice));
+    setProducts(dataParse);
+  }, [localProductsData]);
 
-    localStorage.setItem("cart", JSON.stringify(valueCart.current));
+  const handleAddToCart = (item) => {
+    const action = AddToCart(item);
+    dispatch(action);
   };
   return (
     <>
