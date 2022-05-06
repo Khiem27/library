@@ -3,26 +3,8 @@ import { Link } from "react-router-dom";
 Products.propTypes = {};
 
 function Products(props) {
-  const valueProducts = useRef([
-    [
-      { bookName: "Sách 1", bookPrice: "12", bookDisc: "Khong" },
-      { quantity: 1, totalPrice: "12" },
-      [
-        "https://res.cloudinary.com/thekhiem/image/upload/v1651829611/preqmjkr0ina1jz0fjtt.webp",
-        "https://res.cloudinary.com/thekhiem/image/upload/v1651829613/drykwknndzcqssa3znxo.webp",
-      ],
-    ],
-  ]);
-  const valueCart = useRef([
-    [
-      { bookName: "Sách 1", bookPrice: "12", bookDisc: "Khong" },
-      { quantity: 9, totalPrice: 108 },
-      [
-        "https://res.cloudinary.com/thekhiem/image/upload/v1651829611/preqmjkr0ina1jz0fjtt.webp",
-        "https://res.cloudinary.com/thekhiem/image/upload/v1651829613/drykwknndzcqssa3znxo.webp",
-      ],
-    ],
-  ]);
+  const valueProducts = useRef([]);
+  const valueCart = useRef([]);
   const [Products, setProducts] = useState([]);
   const [cartData, setCartData] = useState([]);
 
