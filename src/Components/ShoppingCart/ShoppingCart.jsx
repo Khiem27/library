@@ -199,10 +199,7 @@ function ShoppingCart(props) {
                                   <strong>
                                     <span className="amount">
                                       <span id="bk-cart-subtotal-price">
-                                        <span
-                                          className="money"
-                                          data-currency-usd="${AllTotalPriceData}"
-                                        >
+                                        <span className="money">
                                           ${AllTotalPriceData}
                                         </span>
                                       </span>
