@@ -6,9 +6,9 @@ ShoppingCartLayout.propTypes = {};
 
 function ShoppingCartLayout(props) {
   return (
-    <body id="your-shopping-cart" class="template-cart ">
-      <div class="wrapper">
-        <div id="shopify-section-header" class="shopify-section">
+    <body id="your-shopping-cart" className="template-cart ">
+      <div className="wrapper">
+        <div id="shopify-section-header" className="shopify-section">
           <Header />
           <ShoppingCart />
         </div>

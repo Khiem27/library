@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import "../../CSS/style.css";
 import "../../CSS/theme-custom.css";
@@ -7,6 +7,27 @@ import "../../CSS/vendors.css";
 Header.propTypes = {};
 
 function Header(props) {
+  const valueCart = useRef([]);
+
+  const localProductsData = localStorage.getItem("Products");
+  const localCartData = localStorage.getItem("cart");
+  const localAllTotalPriceData = localStorage.getItem("AllTotalPrice");
+  const [cartData, setCartData] = useState([]);
+  const [AllTotalPriceData, setAllTotalPriceData] = useState([]);
+
+  useEffect(() => {
+    const dataCartParse = JSON.parse(localCartData);
+    const dataAllTotalPriceParse = JSON.parse(localAllTotalPriceData);
+    setAllTotalPriceData(dataAllTotalPriceParse);
+    setCartData(dataCartParse);
+    valueCart.current = dataCartParse;
+
+    let allTotalPrice = valueCart.current.reduce(
+      (ack, item) => ack + item[1].totalPrice,
+      0
+    );
+    localStorage.setItem("AllTotalPrice", JSON.stringify(allTotalPrice));
+  }, [localProductsData, localCartData, localAllTotalPriceData]);
   const [valueActiveAccount, setValueActiveAccount] = useState(false);
   const activeAccount = () => {
     setValueActiveAccount(!valueActiveAccount);
@@ -15,6 +36,11 @@ function Header(props) {
   const [valueActiveCartMini, setValueActiveCartMini] = useState(false);
   const activeCartMini = () => {
     setValueActiveCartMini(!valueActiveCartMini);
+  };
+
+  const handleDeleteProductCart = (item) => {
+    const newArr = cartData.filter((data) => data !== item);
+    localStorage.setItem("cart", JSON.stringify(newArr));
   };
   return (
     <div id="shopify-section-header" className="shopify-section">
@@ -39,139 +65,19 @@ function Header(props) {
                       </li>
 
                       <li className="menu-item-has-children mega_static">
-                        <Link to="/collections/all">Shop</Link>
-
-                        <ul className="common-class jekono_nam mega-menu four-column">
-                          <li className="mega-menu-add-class">
-                            <Link to="#" className="mega-title">
-                              Book Type
-                            </Link>
-                            <ul>
-                              <li>
-                                <Link to="/products/1-new-and-sale-badge-product">
-                                  Science
-                                </Link>
-                              </li>
-
-                              <li>
-                                <Link to="/products/11-product-with-video">
-                                  Humanities
-                                </Link>
-                              </li>
-
-                              <li>
-                                <Link to="/products/8-countdown-product">
-                                  Commerce
-                                </Link>
-                              </li>
-
-                              <li>
-                                <Link to="/products/11-product-with-video">
-                                  Adventure
-                                </Link>
-                              </li>
-                            </ul>
-                          </li>
-
-                          <li className="mega-menu-add-class">
-                            <Link to="#" className="mega-title">
-                              Author
-                            </Link>
-                            <ul>
-                              <li>
-                                <Link to="#">Micle Jac</Link>
-                              </li>
-
-                              <li>
-                                <Link to="#">Roben Joo</Link>
-                              </li>
-
-                              <li>
-                                <Link to="#">Shila Mona</Link>
-                              </li>
-
-                              <li>
-                                <Link to="#">Robon Sen</Link>
-                              </li>
-                            </ul>
-                          </li>
-
-                          <li className="mega-menu-add-class">
-                            <Link to="#" className="mega-title">
-                              Publisher
-                            </Link>
-                            <ul>
-                              <li>
-                                <Link to="#">Meen Con</Link>
-                              </li>
-
-                              <li>
-                                <Link to="#">Chung Gon</Link>
-                              </li>
-
-                              <li>
-                                <Link to="#">Lom Mess</Link>
-                              </li>
-
-                              <li>
-                                <Link to="#">Henry Sons</Link>
-                              </li>
-                            </ul>
-                          </li>
-
-                          <li className="mega-menu-add-class">
-                            <Link to="#" className="mega-title">
-                              Bestseller
-                            </Link>
-                            <ul>
-                              <li>
-                                <Link to="/products/12-unique-content-for-each-product-on-the-product-tab">
-                                  Samsdi Robn Lonk
-                                </Link>
-                              </li>
-
-                              <li>
-                                <Link to="/products/7-sample-affiliate-product">
-                                  Monli Kosdn Stons
-                                </Link>
-                              </li>
-
-                              <li>
-                                <Link to="/products/3-variable-product">
-                                  Bolni Jons Top
-                                </Link>
-                              </li>
-
-                              <li>
-                                <Link to="/products/5-simple-product">
-                                  Aisdo Dink Skjos
-                                </Link>
-                              </li>
-                            </ul>
-                          </li>
-
-                          <li className="megamenu-banner d-none d-lg-block mt-30 w-100">
-                            <Link className="mb-0" to="/collections/frontpage">
-                              <img
-                                src="https://cdn.shopify.com/s/files/1/0265/8933/1530/collections/Banner.png?v=1569660585"
-                                alt="Mega menu Banner"
-                                className="img-fluid"
-                              />
-                            </Link>
-                          </li>
-                        </ul>
+                        <Link to="/cart">Shopping Cart</Link>
                       </li>
 
                       <li>
-                        <Link to="/blogs/news">Blog</Link>
+                        <Link to="/pages/contact-us">Post A Book</Link>
                       </li>
 
                       <li>
-                        <Link to="/pages/about-us">About</Link>
+                        <Link to="/pages/about-us">Checkout</Link>
                       </li>
 
                       <li>
-                        <Link to="/pages/contact-us">Contact</Link>
+                        <Link to="/account/login">Login</Link>
                       </li>
                     </ul>
                   </nav>
@@ -207,37 +113,46 @@ function Header(props) {
                           </div>
 
                           <div className="cart-items-wrapper ps-scroll single-product-cart single-cart-item-loop ps">
-                            <div className="single-cart-item">
-                              <Link className="remove-icon" to="#">
-                                <i className="fa-solid fa-xmark"></i>
-                              </Link>
+                            {cartData &&
+                              cartData.map((item, index) => {
+                                return (
+                                  <div className="single-cart-item" key={index}>
+                                    <Link
+                                      onClick={() =>
+                                        handleDeleteProductCart(item)
+                                      }
+                                      className="remove-icon"
+                                      to="#"
+                                    >
+                                      <i className="fa-solid fa-xmark"></i>
+                                    </Link>
 
-                              <div className="image">
-                                <Link to="/products/8-countdown-product?variant=29444795662410">
-                                  <img
-                                    src="https://cdn.shopify.com/s/files/1/0265/8933/1530/products/11_e272e529-4c81-454b-b9ff-99dcfba814f1_small.jpg?v=1569231225"
-                                    alt=""
-                                  />
-                                </Link>
-                              </div>
-                              <div className="content">
-                                <p className="product-title">
-                                  <Link to="/products/8-countdown-product?variant=29444795662410">
-                                    8. Countdown product - red
-                                  </Link>
-                                </p>
+                                    <div className="image">
+                                      <Link to="/products/8-countdown-product?variant=29444795662410">
+                                        <img
+                                          src="https://cdn.shopify.com/s/files/1/0265/8933/1530/products/11_e272e529-4c81-454b-b9ff-99dcfba814f1_small.jpg?v=1569231225"
+                                          alt=""
+                                        />
+                                      </Link>
+                                    </div>
 
-                                <p className="cart-quantity">
-                                  <span>1 x </span>{" "}
-                                  <span
-                                    className="money"
-                                    data-currency-usd="$39.00"
-                                  >
-                                    $39.00
-                                  </span>
-                                </p>
-                              </div>
-                            </div>
+                                    <div className="content">
+                                      <p className="product-title">
+                                        <Link to="/products/8-countdown-product?variant=29444795662410">
+                                          {item[0].bookName}
+                                        </Link>
+                                      </p>
+
+                                      <p className="cart-quantity">
+                                        <span>{item[1].quantity} x </span>{" "}
+                                        <span className="money">
+                                          ${item[0].bookPrice}
+                                        </span>
+                                      </p>
+                                    </div>
+                                  </div>
+                                );
+                              })}
 
                             <div
                               className="ps__rail-x"
@@ -271,7 +186,7 @@ function Header(props) {
                                       className="money"
                                       data-currency-usd="$39.00"
                                     >
-                                      $39.00
+                                      ${AllTotalPriceData}
                                     </span>
                                   </td>
                                 </tr>
@@ -283,7 +198,7 @@ function Header(props) {
                                       className="money"
                                       data-currency-usd="$39.00"
                                     >
-                                      $39.00
+                                      ${AllTotalPriceData}
                                     </span>{" "}
                                   </td>
                                 </tr>

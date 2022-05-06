@@ -1,108 +1,209 @@
-import React from "react";
-
+import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 ShoppingCart.propTypes = {};
 
 function ShoppingCart(props) {
+  const valueCart = useRef([]);
+
+  const localProductsData = localStorage.getItem("Products");
+  const localCartData = localStorage.getItem("cart");
+  const localAllTotalPriceData = localStorage.getItem("AllTotalPrice");
+  const [cartData, setCartData] = useState([]);
+  const [AllTotalPriceData, setAllTotalPriceData] = useState([]);
+
+  useEffect(() => {
+    const dataCartParse = JSON.parse(localCartData);
+    const dataAllTotalPriceParse = JSON.parse(localAllTotalPriceData);
+    setAllTotalPriceData(dataAllTotalPriceParse);
+    setCartData(dataCartParse);
+    valueCart.current = dataCartParse;
+    let allTotalPrice = valueCart.current.reduce(
+      (ack, item) => ack + item[1].totalPrice,
+      0
+    );
+    localStorage.setItem("AllTotalPrice", JSON.stringify(allTotalPrice));
+  }, [localProductsData, localCartData, localAllTotalPriceData]);
+
+  const handleDeleteProductCart = (item) => {
+    const newArr = cartData.filter((data) => data !== item);
+    localStorage.setItem("cart", JSON.stringify(newArr));
+    let allTotalPrice = valueCart.current.reduce(
+      (ack, item) => ack + item[1].totalPrice,
+      0
+    );
+    localStorage.setItem("AllTotalPrice", JSON.stringify(allTotalPrice));
+  };
+
+  const handleDecrease = (item) => {
+    const valueFindIndex = cartData.findIndex((data) => {
+      return data[0].bookName === item[0].bookName;
+    });
+
+    const arr = valueCart.current;
+    arr[valueFindIndex][1].quantity = arr[valueFindIndex][1].quantity - 1;
+    arr[valueFindIndex][1].totalPrice =
+      arr[valueFindIndex][1].quantity * arr[valueFindIndex][0].bookPrice;
+    localStorage.setItem("cart", JSON.stringify(valueCart.current));
+    let allTotalPrice = valueCart.current.reduce(
+      (ack, item) => ack + item[1].totalPrice,
+      0
+    );
+    localStorage.setItem("AllTotalPrice", JSON.stringify(allTotalPrice));
+    window.location.reload();
+  };
+
+  const handleIncrease = (item) => {
+    const valueFindIndex = cartData.findIndex((data) => {
+      return data[0].bookName === item[0].bookName;
+    });
+
+    const arr = valueCart.current;
+    arr[valueFindIndex][1].quantity = arr[valueFindIndex][1].quantity + 1;
+    arr[valueFindIndex][1].totalPrice =
+      arr[valueFindIndex][1].quantity * arr[valueFindIndex][0].bookPrice;
+    localStorage.setItem("cart", JSON.stringify(valueCart.current));
+    let allTotalPrice = valueCart.current.reduce(
+      (ack, item) => ack + item[1].totalPrice,
+      0
+    );
+    localStorage.setItem("AllTotalPrice", JSON.stringify(allTotalPrice));
+    window.location.reload();
+  };
+
   return (
     <main>
       <div
         id="shopify-section-template--14336701595722__main"
-        class="shopify-section"
+        className="shopify-section"
       >
-        <div class="cart-page theme-default-margin">
-          <div class="container">
-            <form action="/cart" method="post" novalidate="" class="cart">
-              <div class="row">
-                <div class="col-lg-12 col-12">
-                  <div class="cart-table table-responsive mb-40">
+        <div className="cart-page theme-default-margin">
+          <div className="container">
+            <form action="/cart" method="post" novalidate="" className="cart">
+              <div className="row">
+                <div className="col-lg-12 col-12">
+                  <div className="cart-table table-responsive mb-40">
                     <table>
                       <thead>
                         <tr>
-                          <th class="pro-thumbnail">Image</th>
-                          <th class="pro-title">Product</th>
-                          <th class="pro-price">Price</th>
-                          <th class="pro-quantity">Quantity</th>
-                          <th class="pro-subtotal">Total</th>
-                          <th class="pro-remove">Remove</th>
+                          <th className="pro-thumbnail">Image</th>
+                          <th className="pro-title">Product</th>
+                          <th className="pro-price">Price</th>
+                          <th className="pro-quantity">Quantity</th>
+                          <th className="pro-subtotal">Total</th>
+                          <th className="pro-remove">Remove</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td class="pro-thumbnail">
-                            <a href="/products/8-countdown-product?variant=29444795662410">
-                              <img
-                                src="//cdn.shopify.com/s/files/1/0265/8933/1530/products/11_e272e529-4c81-454b-b9ff-99dcfba814f1_compact.jpg?v=1569231225"
-                                alt="8. Countdown product - red"
-                              />
-                            </a>
-                          </td>
-                          <td class="pro-title">
-                            <a href="/products/8-countdown-product?variant=29444795662410">
-                              8. Countdown product
-                            </a>
-                          </td>
-                          <td class="pro-price">
-                            <span class="amount">
-                              <span class="money" data-currency-usd="$39.00">
-                                $39.00
-                              </span>
-                            </span>
-                          </td>
-                          <td class="pro-quantity">
-                            <div class="product-quantity">
-                              <input type="text" value="1" name="updates[]" />
-                              <span class="dec qtybtn"> (-) </span>
-                              <span class="inc qtybtn"> (+) </span>
-                            </div>
-                          </td>
-                          <td class="pro-subtotal">
-                            <span class="money" data-currency-usd="$39.00">
-                              $39.00
-                            </span>
-                          </td>
-                          <td class="pro-remove">
-                            <a href="/cart/change?line=1&amp;quantity=0">×</a>
-                          </td>
-                        </tr>
+                        {cartData &&
+                          cartData.map((item, index) => {
+                            return (
+                              <tr key={index}>
+                                <td className="pro-thumbnail">
+                                  <a href="/products/8-countdown-product?variant=29444795662410">
+                                    <img
+                                      src="//cdn.shopify.com/s/files/1/0265/8933/1530/products/11_e272e529-4c81-454b-b9ff-99dcfba814f1_compact.jpg?v=1569231225"
+                                      alt="8. Countdown product - red"
+                                    />
+                                  </a>
+                                </td>
+                                <td className="pro-title">
+                                  <a href="/products/8-countdown-product?variant=29444795662410">
+                                    {item[0].bookName}
+                                  </a>
+                                </td>
+                                <td className="pro-price">
+                                  <span className="amount">
+                                    <span
+                                      className="money"
+                                      data-currency-usd="$39.00"
+                                    >
+                                      ${item[0].bookPrice}
+                                    </span>
+                                  </span>
+                                </td>
+                                <td className="pro-quantity">
+                                  <div className="product-quantity">
+                                    <input
+                                      type="text"
+                                      value={item[1].quantity}
+                                      name="updates[]"
+                                    />
+                                    <span
+                                      onClick={() => handleDecrease(item)}
+                                      className="dec qtybtn"
+                                    >
+                                      {" "}
+                                      (-){" "}
+                                    </span>
+                                    <span
+                                      onClick={() => handleIncrease(item)}
+                                      className="inc qtybtn"
+                                    >
+                                      {" "}
+                                      (+){" "}
+                                    </span>
+                                  </div>
+                                </td>
+                                <td className="pro-subtotal">
+                                  <span
+                                    className="money"
+                                    data-currency-usd="$39.00"
+                                  >
+                                    ${item[1].totalPrice}
+                                  </span>
+                                </td>
+                                <td className="pro-remove">
+                                  <Link
+                                    onClick={() =>
+                                      handleDeleteProductCart(item)
+                                    }
+                                    to="#"
+                                  >
+                                    ×
+                                  </Link>
+                                </td>
+                              </tr>
+                            );
+                          })}
                       </tbody>
                     </table>
                   </div>
                 </div>
 
-                <div class="col-lg-12 col-12">
-                  <div class="cart-payment">
-                    <div class="row">
-                      <div class="col-lg-6">
-                        <div class="cart-total">
+                <div className="col-lg-12 col-12">
+                  <div className="cart-payment">
+                    <div className="row">
+                      <div className="col-lg-6">
+                        <div className="cart-total">
                           <h3>Cart Totals</h3>
                           <table>
                             <tbody>
-                              <tr class="cart-subtotal">
+                              <tr className="cart-subtotal">
                                 <th>Subtotal</th>
                                 <td>
-                                  <span class="amount">
+                                  <span className="amount">
                                     <span id="bk-cart-subtotal-price">
                                       <span
-                                        class="money"
+                                        className="money"
                                         data-currency-usd="$39.00"
                                       >
-                                        $39.00
+                                        ${AllTotalPriceData}
                                       </span>
                                     </span>
                                   </span>
                                 </td>
                               </tr>
-                              <tr class="order-total">
+                              <tr className="order-total">
                                 <th>Total</th>
                                 <td>
                                   <strong>
-                                    <span class="amount">
+                                    <span className="amount">
                                       <span id="bk-cart-subtotal-price">
                                         <span
-                                          class="money"
-                                          data-currency-usd="$39.00"
+                                          className="money"
+                                          data-currency-usd="${AllTotalPriceData}"
                                         >
-                                          $39.00
+                                          ${AllTotalPriceData}
                                         </span>
                                       </span>
                                     </span>
@@ -111,10 +212,10 @@ function ShoppingCart(props) {
                               </tr>
                             </tbody>
                           </table>
-                          <div class="proceed-to-checkout">
+                          <div className="proceed-to-checkout">
                             <button
                               type="submit"
-                              class="theme-default-button"
+                              className="theme-default-button"
                               name="checkout"
                             >
                               Proceed to Checkout

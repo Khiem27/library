@@ -6,8 +6,8 @@ AddProductsLayout.propTypes = {};
 
 function AddProductsLayout(props) {
   return (
-    <body id="contact-us" class="template-page ">
-      <div class="wrapper">
+    <body id="contact-us" className="template-page ">
+      <div className="wrapper">
         <Header />
         <AddProducts />
       </div>

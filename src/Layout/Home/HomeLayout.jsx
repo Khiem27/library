@@ -1,6 +1,6 @@
 import React from "react";
-import Products from "../../Components/Authentication/Products/Products";
 import Header from "../../Components/Header/Header";
+import Products from "../../Components/Products/Products";
 
 HomeLayout.propTypes = {};
 
