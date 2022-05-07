@@ -1,8 +1,22 @@
+import { useSnackbar } from "notistack";
 import React from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { RegisterAction } from "../AuthenticationSlice";
 Register.propTypes = {};
 
 function Register(props) {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const dispatch = useDispatch();
+  const { register, handleSubmit } = useForm();
+  const onSubmit = (data) => {
+    const action = RegisterAction(data);
+    dispatch(action);
+    enqueueSnackbar("Đăng Ký Thành Công", {
+      variant: "success",
+    });
+  };
   return (
     <div className="login-form-container">
       <div className="login-text">
@@ -11,15 +25,7 @@ function Register(props) {
         <p>Please Register using account detail bellow.</p>
       </div>
       <div className="register-form">
-        <form
-          method="post"
-          action="/account"
-          id="create_customer"
-          accept-charset="UTF-8"
-        >
-          <input type="hidden" name="form_type" value="create_customer" />
-          <input type="hidden" name="utf8" value="✓" />
-
+        <form id="create_customer" onSubmit={handleSubmit(onSubmit)}>
           <label htmlFor="FirstName" className="hidden-label">
             First Name
           </label>
@@ -29,6 +35,7 @@ function Register(props) {
             id="FirstName"
             className="input-full"
             placeholder="First Name"
+            {...register("FirstName", { required: true })}
           />
 
           <label htmlFor="LastName" className="hidden-label">
@@ -40,6 +47,7 @@ function Register(props) {
             id="LastName"
             className="input-full"
             placeholder="Last Name"
+            {...register("LastName", { required: true })}
           />
 
           <label htmlFor="Email" className="hidden-label">
@@ -51,6 +59,7 @@ function Register(props) {
             id="Email"
             className="input-full"
             placeholder="Email"
+            {...register("Email", { required: true })}
           />
 
           <label htmlFor="CreatePassword" className="hidden-label">
@@ -62,6 +71,7 @@ function Register(props) {
             id="CreatePassword"
             className="input-full"
             placeholder="Password"
+            {...register("Password", { required: true })}
           />
 
           <div className="form-action-button">
