@@ -216,16 +216,14 @@ function ShoppingCart(props) {
                             </tbody>
                           </table>
                           <div className="proceed-to-checkout">
-                            <button
+                            <Link
                               type="submit"
                               className="theme-default-button"
                               name="checkout"
-                              onClick={
-                                (window.location.href = "/pages/about-us")
-                              }
+                              to="/pages/about-us"
                             >
                               Proceed to Checkout
-                            </button>
+                            </Link>
                           </div>
                         </div>
                       </div>
