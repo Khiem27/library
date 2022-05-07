@@ -82,7 +82,7 @@ function Header(props) {
                       </li>
 
                       <li>
-                        <Link to="/account/login">Login</Link>
+                        <Link to="/account/list">List Customer</Link>
                       </li>
                     </ul>
                   </nav>

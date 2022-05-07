@@ -5,6 +5,7 @@ import LoginLayout from "./Layout/Authentication/Login/LoginLayout";
 import RegisterLayout from "./Layout/Authentication/Register/RegisterLayout";
 import CheckoutLayout from "./Layout/Checkout/CheckoutLayout";
 import HomeLayout from "./Layout/Home/HomeLayout";
+import ListCustomerLayout from "./Layout/ListCustomer/ListCustomerLayout";
 import ShoppingCartLayout from "./Layout/ShoppingCart/ShoppingCartLayout";
 function App() {
   localStorage.setItem(
@@ -39,6 +40,7 @@ function App() {
         <Route path="/" element={<HomeLayout />} />
         <Route path="/account/login" element={<LoginLayout />} />
         <Route path="/account/register" element={<RegisterLayout />} />
+        <Route path="/account/list" element={<ListCustomerLayout />} />
         <Route path="/cart" element={<ShoppingCartLayout />} />
         <Route path="/pages/contact-us" element={<AddProductsLayout />} />
         <Route path="/pages/about-us" element={<CheckoutLayout />} />
