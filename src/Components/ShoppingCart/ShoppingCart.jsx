@@ -220,6 +220,9 @@ function ShoppingCart(props) {
                               type="submit"
                               className="theme-default-button"
                               name="checkout"
+                              onClick={
+                                (window.location.href = "/pages/about-us")
+                              }
                             >
                               Proceed to Checkout
                             </button>
