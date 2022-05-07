@@ -7,7 +7,7 @@ import { RegisterAction } from "../AuthenticationSlice";
 Register.propTypes = {};
 
 function Register(props) {
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => {
