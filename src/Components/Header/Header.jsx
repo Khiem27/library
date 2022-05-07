@@ -134,10 +134,7 @@ function Header(props) {
 
                                     <div className="image">
                                       <Link to="/products/8-countdown-product?variant=29444795662410">
-                                        <img
-                                          src="https://cdn.shopify.com/s/files/1/0265/8933/1530/products/11_e272e529-4c81-454b-b9ff-99dcfba814f1_small.jpg?v=1569231225"
-                                          alt=""
-                                        />
+                                        <img src={item[2][0]} alt="" />
                                       </Link>
                                     </div>
 
@@ -213,7 +210,7 @@ function Header(props) {
 
                           <div className="cart-buttons single-product-cart">
                             <Link to="/cart">View Cart</Link>
-                            <Link to="/checkout">Checkout</Link>
+                            <Link to="/pages/about-us">Checkout</Link>
                           </div>
                         </div>
                       </div>
